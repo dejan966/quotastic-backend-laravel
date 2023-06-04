@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/auth/login', [AuthController::class, 'login']);
+Route::get('/auth/login', [LoginController::class, 'login']);
