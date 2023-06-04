@@ -14,7 +14,7 @@ class CreateQuotesTable extends Migration
     public function up()
     {
         Schema::create('quotes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->integer('karma');
             $table->string('quote');
             $table->dateTime('posted_when');
