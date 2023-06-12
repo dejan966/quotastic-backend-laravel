@@ -9,7 +9,7 @@ use App\Http\Resources\QuoteResource;
 class QuoteController extends Controller
 {
     public function mostLiked(){
-        $mostLikedQuotes = Quote::all();
+        $mostLikedQuotes = Quote::orderBy('karma', 'DESC')->get();
         return QuoteResource::collection($mostLikedQuotes);
     }
 }
