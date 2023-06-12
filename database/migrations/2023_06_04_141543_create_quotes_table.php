@@ -18,6 +18,8 @@ class CreateQuotesTable extends Migration
             $table->integer('karma');
             $table->string('quote');
             $table->dateTime('posted_when');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
