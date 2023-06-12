@@ -27,3 +27,6 @@ Route::get('/quotes/mostLiked', [QuoteController::class, 'mostLiked']);
 Route::get('/quotes/recent', [QuoteController::class, 'mostRecent']);
 Route::get('/quotes/mostLiked/users/{id}', [QuoteController::class, 'userMostLikedQuotes']);
 Route::get('/quotes/recent/users/{id}', [QuoteController::class, 'userMostRecentQuotes']);
+Route::get('/quotes/{id}', [QuoteController::class, 'getById']);
+Route::patch('/quotes/{id}', [QuoteController::class, 'updateById']);
+Route::delete('/quotes/{id}', [QuoteController::class, 'deleteById']);

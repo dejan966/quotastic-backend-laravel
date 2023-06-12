@@ -19,12 +19,27 @@ class QuoteController extends Controller
     }
 
     public function userMostLikedQuotes(Request $request){
-        $userMostLiked = Quote::where('user_id', '=', $request->id)->orderBy('karma', 'DESC')->get();
+        $userMostLiked = Quote::where('user_id', $request->id)->orderBy('karma', 'DESC')->get();
         return QuoteResource::collection($userMostLiked);
     }
     
     public function userMostRecentQuotes(Request $request){
-        $userMostLiked = Quote::where('user_id', '=', $request->id)->orderBy('posted_when', 'DESC')->get();
+        $userMostLiked = Quote::where('user_id', $request->id)->orderBy('posted_when', 'DESC')->get();
+        return QuoteResource::collection($userMostLiked);
+    }
+    
+    public function getById(Request $request){
+        $userMostLiked = Quote::where('id', $request->id)->get();
+        return QuoteResource::collection($userMostLiked);
+    }
+    
+    public function updateById(int $id, Request $request){
+        $userMostLiked = Quote::where('id', $id)->update(array('quote' => $request->quote));
+        return QuoteResource::collection($userMostLiked);
+    }
+    
+    public function deleteById(Request $request){
+        $userMostLiked = Quote::where('id', $request->id)->delete();
         return QuoteResource::collection($userMostLiked);
     }
 }
