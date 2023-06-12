@@ -17,4 +17,14 @@ class QuoteController extends Controller
         $mostRecentQuotes = Quote::orderBy('posted_when', 'DESC')->get();
         return QuoteResource::collection($mostRecentQuotes);
     }
+
+    public function userMostLikedQuotes(Request $request){
+        $userMostLiked = Quote::where('user_id', '=', $request->id)->orderBy('karma', 'DESC')->get();
+        return QuoteResource::collection($userMostLiked);
+    }
+    
+    public function userMostRecentQuotes(Request $request){
+        $userMostLiked = Quote::where('user_id', '=', $request->id)->orderBy('posted_when', 'DESC')->get();
+        return QuoteResource::collection($userMostLiked);
+    }
 }

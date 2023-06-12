@@ -25,3 +25,5 @@ Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
 Route::get('/quotes/mostLiked', [QuoteController::class, 'mostLiked']);
 Route::get('/quotes/recent', [QuoteController::class, 'mostRecent']);
+Route::get('/quotes/mostLiked/users/{id}', [QuoteController::class, 'userMostLikedQuotes']);
+Route::get('/quotes/recent/users/{id}', [QuoteController::class, 'userMostRecentQuotes']);
