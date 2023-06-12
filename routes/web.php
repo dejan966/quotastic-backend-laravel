@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/auth/login', [LoginController::class, 'login']);
+Route::post('/auth/login', [LoginController::class, 'login']);
+Route::post('/auth/register', [RegisterController::class, 'register']);

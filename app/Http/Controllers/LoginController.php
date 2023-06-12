@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request)
+    /**
+     * Handle account login request
+     * 
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
     {
-        $credentials = $request->getCredentials();
+        error_log(print_r($request->email));
+        return response()->json($company);
+/*         $credentials = $request->getCredentials();
 
         if(!Auth::validate($credentials)):
             return redirect()->to('login')
@@ -19,7 +29,7 @@ class LoginController extends Controller
 
         Auth::login($user);
 
-        return $this->authenticated($request, $user);
+        return $this->authenticated($request, $user); */
     }
 
     /**
