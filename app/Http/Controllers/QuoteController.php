@@ -8,6 +8,14 @@ use App\Http\Resources\QuoteResource;
 
 class QuoteController extends Controller
 {
+    public function createQuote(Request $request){
+        return Quote::insert($request->data);
+    }
+    
+    public function getQuotes(){
+        return Quote::all();
+    }
+
     public function mostLiked(){
         $mostLikedQuotes = Quote::orderBy('karma', 'DESC')->get();
         return QuoteResource::collection($mostLikedQuotes);

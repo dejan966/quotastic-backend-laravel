@@ -21,8 +21,13 @@ Route::get('/', function () {
 });
 
 
+//auth
 Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
+
+// Quotes
+Route::post('/quotes', [QuoteController::class, 'createQuote']);
+Route::get('/quotes', [QuoteController::class, 'getQuotes']);
 Route::get('/quotes/mostLiked', [QuoteController::class, 'mostLiked']);
 Route::get('/quotes/recent', [QuoteController::class, 'mostRecent']);
 Route::get('/quotes/mostLiked/users/{id}', [QuoteController::class, 'userMostLikedQuotes']);
