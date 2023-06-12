@@ -20,7 +20,8 @@ class CreateVotesTable extends Migration
             $table->integer('quote_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

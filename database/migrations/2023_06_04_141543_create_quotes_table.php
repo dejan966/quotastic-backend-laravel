@@ -15,12 +15,13 @@ class CreateQuotesTable extends Migration
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('karma');
+            $table->integer('karma')->default(0);
             $table->string('quote');
-            $table->dateTime('posted_when');
+            $table->timestamp('posted_when')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 
