@@ -27,6 +27,11 @@ Route::get('/', function () {
 Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
 
+// User
+Route::get('/users/{id}', [UserController::class, 'getById']);
+Route::patch('/users/{id}', [UserController::class, 'updateById']);
+Route::delete('/users/{id}', [UserController::class, 'deleteById']);
+
 // Quotes
 Route::post('/quotes', [QuoteController::class, 'createQuote']);
 Route::get('/quotes', [QuoteController::class, 'getQuotes']);
