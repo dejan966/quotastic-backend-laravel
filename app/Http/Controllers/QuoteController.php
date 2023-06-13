@@ -15,6 +15,10 @@ class QuoteController extends Controller
     public function getQuotes(){
         return Quote::all();
     }
+    
+    public function randomQuote(){
+        return Quote::all()->random();
+    }
 
     public function mostLiked(){
         $mostLikedQuotes = Quote::orderBy('karma', 'DESC')->get();
