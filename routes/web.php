@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 
-//auth
+// Auth
 Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
 
@@ -39,5 +39,8 @@ Route::patch('/quotes/{id}', [QuoteController::class, 'updateById']);
 Route::delete('/quotes/{id}', [QuoteController::class, 'deleteById']);
 
 // Votes
-Route::post('votes/{id}/upvote', [VoteController::class, 'createVote']);
-Route::post('votes/{id}/downvote', [VoteController::class, 'createVote']);
+Route::post('/votes/{id}/upvote', [VoteController::class, 'createVote']);
+Route::post('/votes/{id}/downvote', [VoteController::class, 'createVote']);
+Route::get('/votes/users/{id}', [VoteController::class, 'findUserVotes']);
+Route::get('/votes', [VoteController::class, 'getVotes']);
+Route::get('/votes/me', [VoteController::class, 'findUserVotes']);

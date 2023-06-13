@@ -30,4 +30,14 @@ class VoteController extends Controller
         $vote = Vote::where('id', $request->id)->delete();
         return VoteResource::collection($vote);
     }
+
+    public function findUserVotes(int $userId){
+        $votes = Vote::where('user_id', $userId)->whereNotNull('quote_id')->get();
+        return VoteResource::collection($votes);
+    }
+    
+    public function getVotes(){
+        $votes = Vote::whereNotNull('quote_id')->get();
+        return VoteResource::collection($votes);
+    }
 }
