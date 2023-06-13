@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\UserController;
@@ -20,11 +19,6 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-// Auth
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/register', [AuthController::class, 'register']);
 
 // User
 Route::post('/users', [UserController::class, 'createUser']);
