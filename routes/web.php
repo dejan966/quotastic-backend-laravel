@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
