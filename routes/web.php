@@ -28,12 +28,13 @@ Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
 
 // User
-Route::get('users/me', [UserController::class, 'getCurrentUser']);
-Route::get('users/me/upvoted', [UserController::class, 'currUserUpvoted']);
-Route::get('users/me/upvotes', [UserController::class, 'currUserUpvotes']);
-Route::get('users/upvotes/{id}', [UserController::class, 'userUpvoted']);
-Route::get('users/upvotes/{id}', [UserController::class, 'userUpvotes']);
-Route::patch('users/me/update-password', [UserController::class, 'updatePassword']);
+Route::post('/users', [UserController::class, 'createUser']);
+Route::get('/users/me', [UserController::class, 'getCurrentUser']);
+Route::get('/users/me/upvoted', [UserController::class, 'currUserUpvoted']);
+Route::get('/users/me/upvotes', [UserController::class, 'currUserUpvotes']);
+Route::get('/users/upvotes/{id}', [UserController::class, 'userUpvoted']);
+Route::get('/users/upvotes/{id}', [UserController::class, 'userUpvotes']);
+Route::patch('/users/me/update-password', [UserController::class, 'updatePassword']);
 Route::get('/users/{id}', [UserController::class, 'getById']);
 Route::patch('/users/{id}', [UserController::class, 'updateById']);
 Route::delete('/users/{id}', [UserController::class, 'deleteById']);

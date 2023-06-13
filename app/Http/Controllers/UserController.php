@@ -9,22 +9,34 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    public function createUser(){
+
+    }
+
     public function getUsers(){
         return User::all();
     }
 
     public function getCurrentUser(){
-        //return user from the session
+        return Auth::user();
     }
-    
+
     public function currUserUpvoted(){
-        
+        $userId = getCurrentUser()->id;
+        $numberUpvotedQuotes = DB::Select('select COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from user u inner join vote v on u.id = v.user_id
+        inner join quote q on q.id = v.quote_id inner join quote q2 on u.id = q2."userId"
+        WHERE (u.id = ?) and (v.value = ?);', [$userId, true]);
+        return UserResource::collection($numberUpvotedQuotes);
     }
     
     public function currUserUpvotes(){
-        
+        $userId = getCurrentUser()->id;
+        $numberUpvotes = DB::Select('select COUNT(u2.*) as quotes from "user" u inner join "vote" v on u.id = v."userId"
+        inner join quote q on q.id = v."quoteId" INNER JOIN "user" u2 on u2.id = v."userId"
+        WHERE (u2.id != ?) and (v.value = ?)', [$userId, true]);
+        return UserResource::collection($numberUpvotes);
     }
-    
+
     //how many quotes the user upvoted
     public function userUpvoted(int $userId){
         $numberOfUpvotedQuotes = DB::Select('select COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from user u inner join vote v on u.id = v.user_id
