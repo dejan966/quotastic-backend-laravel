@@ -8,6 +8,31 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    public function getUsers(){
+        return User::all();
+    }
+
+    public function getCurrentUser(){
+        //return user from the session
+    }
+    
+    public function upvoted(){
+        
+    }
+    
+    public function upvotes(){
+        
+    }
+
+    public function updatePassword(Request $request){
+        //get current user
+        if(!empty($request->password) && !empty($request->confirm_password)){
+            //hash password
+            $updatePass = User::where('id', $id)->update(array('password' => $request->password));
+        }
+        return UserResource::collection($updatePass);
+    }
+
     public function getById(Request $request){
         $user = User::where('id', $request->id);
         return UserResource::collection($user);

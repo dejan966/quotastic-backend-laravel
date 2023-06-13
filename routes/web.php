@@ -28,6 +28,10 @@ Route::post('/auth/login', [LoginController::class, 'login']);
 Route::post('/auth/register', [RegisterController::class, 'register']);
 
 // User
+Route::get('users/me', [UserController::class, 'getCurrentUser']);
+Route::get('users/me/upvoted', [UserController::class, 'upvoted']);
+Route::get('users/me/upvotes', [UserController::class, 'upvotes']);
+Route::patch('users/me/update-password', [UserController::class, 'updatePassword']);
 Route::get('/users/{id}', [UserController::class, 'getById']);
 Route::patch('/users/{id}', [UserController::class, 'updateById']);
 Route::delete('/users/{id}', [UserController::class, 'deleteById']);

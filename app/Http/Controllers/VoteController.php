@@ -11,7 +11,7 @@ class VoteController extends Controller
 {
     public function createVote(int $id, Request $request){
         $userVote = Vote::where('quote_id', $id).pluck('value'); //add current user to the where
-        if(count($userVote) > 0){
+        if(!empty($userVote)){
             if($userVote->value === $request->value){
                 $deletedVote = deleteVote($id);
                 //return Vote::insert()
