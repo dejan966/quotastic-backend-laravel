@@ -16,11 +16,12 @@ class CreateVotesTable extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->boolean('value');
-            $table->index('user_id')->unsigned();
+            $table->integer('user_id');
+            $table->integer('quote_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->index('quote_id')->unsigned();
             $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 
