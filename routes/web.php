@@ -29,6 +29,7 @@ Route::post('/auth/register', [RegisterController::class, 'register']);
 
 // User
 Route::post('/users', [UserController::class, 'createUser']);
+Route::get('/users', [UserController::class, 'getUsers']);
 Route::get('/users/me', [UserController::class, 'getCurrentUser']);
 Route::get('/users/me/upvoted', [UserController::class, 'currUserUpvoted']);
 Route::get('/users/me/upvotes', [UserController::class, 'currUserUpvotes']);

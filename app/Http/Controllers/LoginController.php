@@ -16,8 +16,8 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        error_log(print_r($request->email));
-        return response()->json($company);
+        print_r($request->email);
+        
 /*         $credentials = $request->getCredentials();
 
         if(!Auth::validate($credentials)):
