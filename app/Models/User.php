@@ -13,13 +13,12 @@ class User extends Model
      *
      * @var array
      */
-    /* protected $fillable = [
+    protected $fillable = [
         'first_name',
         'last_name',
         'email',
         'password',
-        'avatar',
-    ]; */
+    ];
     /**
      * Always encrypt the password when it is updated.
      *
