@@ -41,7 +41,7 @@ class QuoteController extends Controller
     }
     
     public function getById(Request $request){
-        $userMostLiked = Quote::where('id', $request->id)->get();
+        $userMostLiked = Quote::where('id', $request->id);
         return QuoteResource::collection($userMostLiked);
     }
     
@@ -52,5 +52,6 @@ class QuoteController extends Controller
     
     public function deleteById(Request $request){
         $userMostLiked = Quote::where('id', $request->id)->delete();
+        return QuoteResource::collection($userMostLiked);
     }
 }
