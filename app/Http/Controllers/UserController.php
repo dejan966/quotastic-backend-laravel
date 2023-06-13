@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UserResource;
@@ -16,12 +17,28 @@ class UserController extends Controller
         //return user from the session
     }
     
-    public function upvoted(){
+    public function currUserUpvoted(){
         
     }
     
-    public function upvotes(){
+    public function currUserUpvotes(){
         
+    }
+    
+    //how many quotes the user upvoted
+    public function userUpvoted(int $userId){
+        $numberOfUpvotedQuotes = DB::Select('select COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from user u inner join vote v on u.id = v.user_id
+        inner join quote q on q.id = v.quote_id inner join quote q2 on u.id = q2."userId"
+        WHERE (u.id = ?) and (v.value = ?);', [$id, true]);
+        return UserResource::collection($numberOfUpvotedQuotes);
+    }
+    
+    //how many users has upvotes the user's quotes
+    public function userUpvotes(int $userId){
+        $numberOfUpvotes = DB::Select('select COUNT(u2.*) as quotes from "user" u inner join "vote" v on u.id = v."userId"
+        inner join quote q on q.id = v."quoteId" INNER JOIN "user" u2 on u2.id = v."userId"
+        WHERE (u2.id != ?) and (v.value = ?)', [$id, true]);
+        return UserResource::collection($numberOfUpvotes);
     }
 
     public function updatePassword(Request $request){
