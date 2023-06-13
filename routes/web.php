@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\UserController;
@@ -24,8 +23,8 @@ Route::get('/', function () {
 
 
 // Auth
-Route::post('/auth/login', [LoginController::class, 'login']);
-Route::post('/auth/register', [RegisterController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/register', [AuthController::class, 'register']);
 
 // User
 Route::post('/users', [UserController::class, 'createUser']);
