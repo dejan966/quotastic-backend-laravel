@@ -36,3 +36,5 @@ Route::get('/quotes/recent/users/{id}', [QuoteController::class, 'userMostRecent
 Route::get('/quotes/{id}', [QuoteController::class, 'getById']);
 Route::patch('/quotes/{id}', [QuoteController::class, 'updateById']);
 Route::delete('/quotes/{id}', [QuoteController::class, 'deleteById']);
+
+// Votes
