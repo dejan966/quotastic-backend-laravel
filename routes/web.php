@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,5 @@ Route::patch('/quotes/{id}', [QuoteController::class, 'updateById']);
 Route::delete('/quotes/{id}', [QuoteController::class, 'deleteById']);
 
 // Votes
+Route::post('votes/{id}/upvote', [VoteController::class, 'createVote']);
+Route::post('votes/{id}/downvote', [VoteController::class, 'createVote']);

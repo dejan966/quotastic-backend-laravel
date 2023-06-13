@@ -52,6 +52,5 @@ class QuoteController extends Controller
     
     public function deleteById(Request $request){
         $userMostLiked = Quote::where('id', $request->id)->delete();
-        return QuoteResource::collection($userMostLiked);
     }
 }
