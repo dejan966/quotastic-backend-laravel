@@ -21,13 +21,12 @@ class UserController extends Controller
     public function getCurrentUser(){
         if (Auth::check())
         {
-            // The user is logged in...
             return Auth::user();
         }
         else
-    {
-        echo "You are not logged in";
-    }
+        {
+            echo "You are not logged in";
+        }
     }
 
     public function currUserUpvoted(){
