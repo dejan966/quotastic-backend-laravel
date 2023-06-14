@@ -31,8 +31,6 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            //'password' => ['required', 'string', 'min:4', 'confirmed'],
-            // NO PASSWORD CONFIRMATION
             'password' => ['required', 'string', 'min:4'],
         ]);
     }
@@ -41,7 +39,7 @@ class AuthController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {

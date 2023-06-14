@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
@@ -19,14 +18,4 @@ class User extends Model
         'email',
         'password',
     ];
-    /**
-     * Always encrypt the password when it is updated.
-     *
-     * @param $value
-     * @return string
-     */
-    /* public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    } */
 }
