@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -99,7 +100,8 @@ class AuthController extends Controller
             ], 401);
         }
 
-        //$user = $this->updateRtHash($request->id, $token);
+        Cookie::queue('access_token', $access_token, 15);
+
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
@@ -110,6 +112,13 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ]);
+    }
+
+    public function setCookie(string $token){
+        $minutes = 15;
+        //$response = new Response('Set Cookie');
+        $cookie = cookie('access_token', $token, $minutes);
+        return response()->cookie($cookie);
     }
     
     public function logout()
