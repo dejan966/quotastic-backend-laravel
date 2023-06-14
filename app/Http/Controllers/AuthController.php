@@ -18,7 +18,7 @@ class AuthController extends Controller
         $this->guard()->login($user);
         return response()->json([
             'user' => $user,
-            'message' => 'registration successful'
+            'message' => 'Registration successful'
         ], 200);
     }
     /**
@@ -30,8 +30,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:4'],
+            'email' => ['required', 'string', 'email', 'unique:users'],
+            'password' => ['required', 'string', 'min:5'],
         ]);
     }
 

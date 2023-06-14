@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 
@@ -18,7 +19,15 @@ class UserController extends Controller
     }
 
     public function getCurrentUser(){
-        return Auth::user();
+        if (Auth::check())
+        {
+            // The user is logged in...
+            return Auth::user();
+        }
+        else
+    {
+        echo "You are not logged in";
+    }
     }
 
     public function currUserUpvoted(){
