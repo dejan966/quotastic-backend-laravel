@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,11 +20,25 @@ class AuthController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-        $this->guard()->login($user);
+/*         $this->guard()->login($user);
         return response()->json([
             'user' => $user,
             'message' => 'Registration successful'
-        ], 200);
+        ], 200); */
+
+        $access_token = Auth::login($user);
+        $refresh_token = Auth::login($user);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'user' => $user,
+            'authorization' => [
+                'access_token' => $access_token,
+                'refresh_token' => $refresh_token,
+                'type' => 'bearer',
+            ]
+        ]);
     }
     /**
      * Get a validator for an incoming registration request.
@@ -37,6 +52,18 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'unique:users'],
             'password' => ['required', 'string', 'min:5'],
         ]);
+    }
+
+    /**
+     * Updates the refresh token in the database.
+     *
+     * @param int $id
+     * @param string $token
+     * @return \App\Http\Resources\UserResource
+     */
+    protected function updateRtHash(int $id, $token){
+        $user = User::where('id', $id)->update(array('refresh_token' => $token));
+        return $user;
     }
 
     /**
@@ -62,21 +89,24 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $access_token = Auth::attempt($credentials);
+        $refresh_token = Auth::attempt($credentials);
 
-        $token = Auth::attempt($credentials);
-        if (!$token) {
+        if (!$access_token) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
             ], 401);
         }
 
+        //$user = $this->updateRtHash($request->id, $token);
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
             'user' => $user,
-            'authorisation' => [
-                'token' => $token,
+            'authorization' => [
+                'access_token' => $access_token,
+                'refresh_token' => $refresh_token,
                 'type' => 'bearer',
             ]
         ]);
