@@ -34,11 +34,6 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
-            'authorization' => [
-                'access_token' => $access_token,
-                'refresh_token' => $refresh_token,
-                'type' => 'bearer',
-            ]
         ]);
     }
     /**
@@ -106,23 +101,12 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'user' => $user,
-            'authorization' => [
-                'access_token' => $access_token,
-                'refresh_token' => $refresh_token,
-                'type' => 'bearer',
-            ]
         ]);
-    }
-
-    public function setCookie(string $token){
-        $minutes = 15;
-        //$response = new Response('Set Cookie');
-        $cookie = cookie('access_token', $token, $minutes);
-        return response()->cookie($cookie);
     }
     
     public function logout()
     {
+        Cookie::queue(Cookie::forget('access_token'));
         Auth::logout();
         return response()->json(['message' => 'Logged Out'], 200);
     }

@@ -21,32 +21,39 @@ Route::get('/', function () {
 });
 
 // User
-Route::post('/users', [UserController::class, 'createUser']);
-Route::get('/users', [UserController::class, 'getUsers']);
-Route::get('/users/me/upvoted', [UserController::class, 'currUserUpvoted']);
-Route::get('/users/me/upvotes', [UserController::class, 'currUserUpvotes']);
-Route::get('/users/upvotes/{id}', [UserController::class, 'userUpvoted']);
-Route::get('/users/upvotes/{id}', [UserController::class, 'userUpvotes']);
-Route::patch('/users/me/update-password', [UserController::class, 'updatePassword']);
-Route::get('/users/{id}', [UserController::class, 'getById']);
-Route::patch('/users/{id}', [UserController::class, 'updateById']);
-Route::delete('/users/{id}', [UserController::class, 'deleteById']);
+Route::controller(UserController::class)->group(function(){
+    Route::post('/users', 'createUser');
+    Route::get('/users', 'getUsers');
+    Route::get('/users/me', 'getCurrentUser');
+    Route::get('/users/me/upvoted', 'currUserUpvoted');
+    Route::get('/users/me/upvotes', 'currUserUpvotes');
+    Route::get('/users/upvotes/{id}', 'userUpvoted');
+    Route::get('/users/upvotes/{id}', 'userUpvotes');
+    Route::patch('/users/me/update-password', 'updatePassword');
+    Route::get('/users/{id}', 'getById');
+    Route::patch('/users/{id}', 'updateById');
+    Route::delete('/users/{id}', 'deleteById');
+});
 
 // Quotes
-Route::post('/quotes', [QuoteController::class, 'createQuote']);
-Route::get('/quotes', [QuoteController::class, 'getQuotes']);
-Route::get('/quotes/random', [QuoteController::class, 'randomQuote']);
-Route::get('/quotes/mostLiked', [QuoteController::class, 'mostLiked']);
-Route::get('/quotes/recent', [QuoteController::class, 'mostRecent']);
-Route::get('/quotes/mostLiked/users/{id}', [QuoteController::class, 'userMostLikedQuotes']);
-Route::get('/quotes/recent/users/{id}', [QuoteController::class, 'userMostRecentQuotes']);
-Route::get('/quotes/{id}', [QuoteController::class, 'getById']);
-Route::patch('/quotes/{id}', [QuoteController::class, 'updateById']);
-Route::delete('/quotes/{id}', [QuoteController::class, 'deleteById']);
+Route::controller(QuoteController::class)->group(function(){
+    Route::post('/quotes', 'createQuote');
+    Route::get('/quotes', 'getQuotes');
+    Route::get('/quotes/random', 'randomQuote');
+    Route::get('/quotes/mostLiked', 'mostLiked');
+    Route::get('/quotes/recent', 'mostRecent');
+    Route::get('/quotes/mostLiked/users/{id}', 'userMostLikedQuotes');
+    Route::get('/quotes/recent/users/{id}', 'userMostRecentQuotes');
+    Route::get('/quotes/{id}', 'getById');
+    Route::patch('/quotes/{id}', 'updateById');
+    Route::delete('/quotes/{id}', 'deleteById');
+});
 
 // Votes
-Route::post('/votes/{id}/upvote', [VoteController::class, 'createVote']);
-Route::post('/votes/{id}/downvote', [VoteController::class, 'createVote']);
-Route::get('/votes/users/{id}', [VoteController::class, 'findUserVotes']);
-Route::get('/votes', [VoteController::class, 'getVotes']);
-Route::get('/votes/me', [VoteController::class, 'findUserVotes']);
+Route::controller(VoteController::class)->group(function(){
+    Route::post('/votes/{id}/upvote', 'createVote');
+    Route::post('/votes/{id}/downvote', 'createVote');
+    Route::get('/votes/users/{id}', 'findUserVotes');
+    Route::get('/votes', 'getVotes');
+    Route::get('/votes/me', 'findUserVotes');
+});
