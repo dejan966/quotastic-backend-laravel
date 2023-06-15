@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::controller(UserController::class)->group(function(){
     Route::post('/users', 'createUser');
     Route::get('/users', 'getUsers');
-    Route::get('/users/me', 'getCurrentUser');
+    //Route::get('/users/me', 'getCurrentUser');
     Route::get('/users/me/upvoted', 'currUserUpvoted');
     Route::get('/users/me/upvotes', 'currUserUpvotes');
     Route::get('/users/upvotes/{id}', 'userUpvoted');

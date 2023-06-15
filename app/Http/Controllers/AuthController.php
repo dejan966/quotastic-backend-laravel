@@ -27,12 +27,7 @@ class AuthController extends Controller
             'message' => 'Registration successful'
         ], 200); */
 
-        $access_token = Auth::login($user);
-        $refresh_token = Auth::login($user);
-
         return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
             'user' => $user,
         ]);
     }
@@ -59,7 +54,6 @@ class AuthController extends Controller
      */
     protected function updateRtHash(int $id, $token){
         $user = User::where('id', $id)->update(array('refresh_token' => $token));
-        return $user;
     }
 
     /**
@@ -96,10 +90,11 @@ class AuthController extends Controller
         }
 
         Cookie::queue('access_token', $access_token, 15);
+        Cookie::queue('refresh_token', $refresh_token, 2041);
 
         $user = Auth::user();
+        $this->updateRtHash($user->id, $refresh_token);
         return response()->json([
-            'status' => 'success',
             'user' => $user,
         ]);
     }
