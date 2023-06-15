@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
@@ -83,5 +84,13 @@ class UserController extends Controller
     public function deleteById(Request $request){
         $deletedUser = User::where('id', $request->id)->delete();
         return UserResource::collection($deletedUser);
+    }
+
+    public function logout()
+    {
+        Cookie::queue(Cookie::forget('access_token'));
+        Cookie::queue(Cookie::forget('refresh_token'));
+        Auth::logout();
+        return response()->json(['message' => 'Logged Out'], 200);
     }
 }

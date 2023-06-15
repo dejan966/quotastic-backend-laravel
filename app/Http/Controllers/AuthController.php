@@ -21,15 +21,7 @@ class AuthController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-/*         $this->guard()->login($user);
-        return response()->json([
-            'user' => $user,
-            'message' => 'Registration successful'
-        ], 200); */
-
-        return response()->json([
-            'user' => $user,
-        ]);
+        return response()->json($user);
     }
     /**
      * Get a validator for an incoming registration request.
@@ -94,15 +86,6 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $this->updateRtHash($user->id, $refresh_token);
-        return response()->json([
-            'user' => $user,
-        ]);
-    }
-    
-    public function logout()
-    {
-        Cookie::queue(Cookie::forget('access_token'));
-        Auth::logout();
-        return response()->json(['message' => 'Logged Out'], 200);
+        return response()->json($user);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\UserController;
@@ -20,11 +21,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/* Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/register', [AuthController::class, 'register']); */
+
 // User
 Route::controller(UserController::class)->group(function(){
     Route::post('/users', 'createUser');
     Route::get('/users', 'getUsers');
-    //Route::get('/users/me', 'getCurrentUser');
+    Route::get('/users/me', 'getCurrentUser');
     Route::get('/users/me/upvoted', 'currUserUpvoted');
     Route::get('/users/me/upvotes', 'currUserUpvotes');
     Route::get('/users/upvotes/{id}', 'userUpvoted');
