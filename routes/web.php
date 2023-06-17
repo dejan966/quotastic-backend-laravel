@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\QuoteController;
-use App\Http\Controllers\VoteController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,43 +17,56 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/* Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/register', [AuthController::class, 'register']); */
+// Users
+Route::group([
+    'name'=>'users.',
+    'prefix'=>'users',
+    'namespace'=>'User',
+    'middleware'=>'auth',
+], function(){
+    Route::get('/', 'UserController@getUsers');
+    Route::get('me', 'UserController@getCurrentUser');
+    Route::get('me/upvoted', 'UserController@currUserUpvoted');
+    Route::get('me/upvotes', 'UserController@currUserUpvotes');
+    Route::get('upvoted/{id}', 'UserController@userUpvoted');
+    Route::get('upvotes/{id}', 'UserController@userUpvotes');
+    Route::patch('me/update-password', 'UserController@updatePassword');
+    Route::get('{id}', 'UserController@getById');
+    Route::patch('{id}', 'UserController@updateById');
+    Route::delete('{id}', 'UserController@deleteById');
+});
 
-// User
-Route::controller(UserController::class)->group(function(){
+/* Route::controller(UserController::class)->group(function(){
     Route::post('/users', 'createUser');
-    Route::get('/users', 'getUsers');
-    Route::get('/users/me', 'getCurrentUser');
-    Route::get('/users/me/upvoted', 'currUserUpvoted');
-    Route::get('/users/me/upvotes', 'currUserUpvotes');
-    Route::get('/users/upvotes/{id}', 'userUpvoted');
-    Route::get('/users/upvotes/{id}', 'userUpvotes');
-    Route::patch('/users/me/update-password', 'updatePassword');
-    Route::get('/users/{id}', 'getById');
-    Route::patch('/users/{id}', 'updateById');
-    Route::delete('/users/{id}', 'deleteById');
+    
+}); */
+
+Route::group([
+    'name'=>'quotes.',
+    'prefix'=>'quotes',
+    'namespace'=>'Quote'
+], function(){
+    Route::get('/', 'QuoteController@getQuotes');
+    Route::get('random', 'QuoteController@randomQuote')->name('random');
+    Route::get('mostLiked', 'QuoteController@mostLiked')->name('mostLikedQuotes');
+    Route::get('recent', 'QuoteController@mostRecent')->name('mostRecentQuotes');
+    Route::group(['middleware'=>'auth'], function(){
+        Route::get('{id}', 'QuoteController@getById')->name('getUser');
+        Route::patch('{id}', 'QuoteController@updateById')->name('updateUser');
+        Route::delete('{id}', 'QuoteController@deleteById')->name('deleteUser');
+    });
 });
 
-// Quotes
-Route::controller(QuoteController::class)->group(function(){
-    Route::post('/quotes', 'createQuote');
-    Route::get('/quotes', 'getQuotes');
-    Route::get('/quotes/random', 'randomQuote');
-    Route::get('/quotes/mostLiked', 'mostLiked');
-    Route::get('/quotes/recent', 'mostRecent');
-    Route::get('/quotes/mostLiked/users/{id}', 'userMostLikedQuotes');
-    Route::get('/quotes/recent/users/{id}', 'userMostRecentQuotes');
-    Route::get('/quotes/{id}', 'getById');
-    Route::patch('/quotes/{id}', 'updateById');
-    Route::delete('/quotes/{id}', 'deleteById');
-});
-
-// Votes
-Route::controller(VoteController::class)->group(function(){
-    Route::post('/votes/{id}/upvote', 'createVote');
-    Route::post('/votes/{id}/downvote', 'createVote');
-    Route::get('/votes/users/{id}', 'findUserVotes');
-    Route::get('/votes', 'getVotes');
-    Route::get('/votes/me', 'findUserVotes');
+Route::group([
+    'name'=>'votess.',
+    'prefix'=>'votes',
+    'namespace'=>'Vote'
+], function(){
+    Route::get('users/{id}', 'VoteController@findUserVotes');
+    Route::get('/', 'VoteController@getVotes');
+    Route::group(['middleware'=>'auth'], function(){
+        Route::post('{id}/upvote', 'VoteController@createVote');
+        Route::post('{id}/downvote', 'VoteController@createVote');
+        Route::get('me', 'VoteController@findUserVotes');
+    });
 });

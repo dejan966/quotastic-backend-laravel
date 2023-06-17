@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vote;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Vote;
@@ -38,6 +39,6 @@ class VoteController extends Controller
     
     public function getVotes(){
         $votes = Vote::whereNotNull('quote_id')->get();
-        return VoteResource::collection($votes);
+        return $votes;
     }
 }

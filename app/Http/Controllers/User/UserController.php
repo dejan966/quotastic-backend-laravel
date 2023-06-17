@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -31,35 +32,35 @@ class UserController extends Controller
     }
 
     public function currUserUpvoted(){
-        $userId = getCurrentUser()->id;
-        $numberUpvotedQuotes = DB::Select('select COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from user u inner join vote v on u.id = v.user_id
-        inner join quote q on q.id = v.quote_id inner join quote q2 on u.id = q2."userId"
+        $userId = $this->getCurrentUser()->id;
+        $numberUpvotedQuotes = DB::Select('SELECT COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from users u inner join votes v on u.id = v.user_id
+        inner join quotes q on q.id = v.quote_id inner join quotes q2 on u.id = q2."user_id"
         WHERE (u.id = ?) and (v.value = ?);', [$userId, true]);
-        return UserResource::collection($numberUpvotedQuotes);
+        return $numberUpvotedQuotes;
     }
     
     public function currUserUpvotes(){
-        $userId = getCurrentUser()->id;
-        $numberUpvotes = DB::Select('select COUNT(u2.*) as quotes from "user" u inner join "vote" v on u.id = v."userId"
-        inner join quote q on q.id = v."quoteId" INNER JOIN "user" u2 on u2.id = v."userId"
+        $userId = $this->getCurrentUser()->id;
+        $numberUpvotes = DB::Select('select COUNT(u2.*) as quotes from users u inner join votes v on u.id = v.user_id
+        inner join quotes q on q.id = v.quote_id INNER JOIN users u2 on u2.id = v.user_id
         WHERE (u2.id != ?) and (v.value = ?)', [$userId, true]);
-        return UserResource::collection($numberUpvotes);
+        return $numberUpvotes;
     }
 
     //how many quotes the user upvoted
     public function userUpvoted(int $userId){
-        $numberOfUpvotedQuotes = DB::Select('select COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from user u inner join vote v on u.id = v.user_id
-        inner join quote q on q.id = v.quote_id inner join quote q2 on u.id = q2."userId"
-        WHERE (u.id = ?) and (v.value = ?);', [$id, true]);
-        return UserResource::collection($numberOfUpvotedQuotes);
+        $numberOfUpvotedQuotes = DB::Select('SELECT COUNT(DISTINCT(v.*)) as quotesUpvoted, COUNT(q2.quote) as userQuotes from users u inner join votes v on u.id = v.user_id
+        inner join quotes q on q.id = v.quote_id inner join quotes q2 on u.id = q2.user_id
+        WHERE (u.id = ?) and (v.value = ?);', [$userId, true]);
+        return $numberOfUpvotedQuotes;
     }
     
     //how many users has upvotes the user's quotes
     public function userUpvotes(int $userId){
-        $numberOfUpvotes = DB::Select('select COUNT(u2.*) as quotes from "user" u inner join "vote" v on u.id = v."userId"
-        inner join quote q on q.id = v."quoteId" INNER JOIN "user" u2 on u2.id = v."userId"
-        WHERE (u2.id != ?) and (v.value = ?)', [$id, true]);
-        return UserResource::collection($numberOfUpvotes);
+        $numberOfUpvotes = DB::Select('select COUNT(u2.*) as quotes from users u inner join votes v on u.id = v.user_id
+        inner join quotes q on q.id = v.quote_id INNER JOIN users u2 on u2.id = v.user_id
+        WHERE (u2.id != ?) and (v.value = ?)', [$userId, true]);
+        return $numberOfUpvotes;
     }
 
     public function updatePassword(Request $request){
