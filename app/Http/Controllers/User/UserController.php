@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
-    public function createUser(){
-
-    }
-
     public function getUsers(){
         return User::all();
     }

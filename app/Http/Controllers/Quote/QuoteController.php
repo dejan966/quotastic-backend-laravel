@@ -14,7 +14,7 @@ class QuoteController extends Controller
     }
     
     public function getQuotes(){
-        return Quote::all();
+        return QuoteResource::collection(Quote::all());
     }
     
     public function randomQuote(){

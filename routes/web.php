@@ -36,29 +36,24 @@ Route::group([
     Route::delete('{id}', 'UserController@deleteById');
 });
 
-/* Route::controller(UserController::class)->group(function(){
-    Route::post('/users', 'createUser');
-    
-}); */
-
 Route::group([
     'name'=>'quotes.',
     'prefix'=>'quotes',
     'namespace'=>'Quote'
 ], function(){
     Route::get('/', 'QuoteController@getQuotes');
-    Route::get('random', 'QuoteController@randomQuote')->name('random');
-    Route::get('mostLiked', 'QuoteController@mostLiked')->name('mostLikedQuotes');
-    Route::get('recent', 'QuoteController@mostRecent')->name('mostRecentQuotes');
+    Route::get('random', 'QuoteController@randomQuote');
+    Route::get('mostLiked', 'QuoteController@mostLiked');
+    Route::get('recent', 'QuoteController@mostRecent');
     Route::group(['middleware'=>'auth'], function(){
-        Route::get('{id}', 'QuoteController@getById')->name('getUser');
-        Route::patch('{id}', 'QuoteController@updateById')->name('updateUser');
-        Route::delete('{id}', 'QuoteController@deleteById')->name('deleteUser');
+        Route::get('{id}', 'QuoteController@getById');
+        Route::patch('{id}', 'QuoteController@updateById');
+        Route::delete('{id}', 'QuoteController@deleteById');
     });
 });
 
 Route::group([
-    'name'=>'votess.',
+    'name'=>'votes.',
     'prefix'=>'votes',
     'namespace'=>'Vote'
 ], function(){

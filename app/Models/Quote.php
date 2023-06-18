@@ -15,4 +15,9 @@ class Quote extends Model
      * @var array
      */
     protected $fillable = ['quote'];
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User','id','user_id')->select(['id','first_name','last_name','email']);
+    }
 }

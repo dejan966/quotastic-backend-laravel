@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
 class QuoteResource extends JsonResource
 {
@@ -14,6 +15,11 @@ class QuoteResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return[
+            'id' => $this->id,
+            'quote' => $this->quote,
+            'karma' => $this->karma,
+            'user' => UserResource::make($this->user),
+        ];
     }
 }
