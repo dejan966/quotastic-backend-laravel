@@ -29,7 +29,7 @@ Route::group([
 
 Route::group([
     'name'=>'users.',
-    'prefix'=>'users',
+    'prefix'=>'auth',
     'namespace'=>'User'
 ], function(){
     Route::get('signout', 'UserController@logout');
