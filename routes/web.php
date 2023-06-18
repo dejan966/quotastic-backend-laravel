@@ -36,6 +36,7 @@ Route::group([
     Route::delete('{id}', 'UserController@deleteById');
 });
 
+// Quotes
 Route::group([
     'name'=>'quotes.',
     'prefix'=>'quotes',
@@ -52,6 +53,7 @@ Route::group([
     });
 });
 
+// Votes
 Route::group([
     'name'=>'votes.',
     'prefix'=>'votes',

@@ -18,6 +18,8 @@ class Quote extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User','id','user_id')->select(['id','first_name','last_name','email']);
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'Guest Author',
+        ]);;
     }
 }

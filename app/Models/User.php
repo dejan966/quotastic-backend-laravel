@@ -63,11 +63,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function quotes()
     {
-        return $this->hasOne('App\Models\Quote','user_id','id')->select(['id','quote','karma']);
+        return $this->hasOne(Quote::class,'user_id','id')->select(['id','quote','karma']);
     }
     
     public function votes()
     {
-        return $this->hasOne('App\Models\Vote','user_id','id')->select(['id','value']);
+        return $this->hasOne(Vote::class,'user_id','id')->select(['id','value']);
     }
 }

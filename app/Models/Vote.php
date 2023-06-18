@@ -11,11 +11,11 @@ class Vote extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User','id','user_id')->select(['id','first_name','last_name','email']);
+        return $this->belongsTo(User::class);
     }
 
     public function quote()
     {
-        return $this->hasOne('App\Models\Quote','id','quote_id')->select(['id','quote','karma','user_id']);
+        return $this->belongsTo(Quote::class);
     }
 }
