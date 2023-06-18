@@ -15,7 +15,7 @@ class VoteController extends Controller
         if(!empty($userVote)){
             if($userVote->value === $request->value){
                 $deletedVote = deleteVote($id);
-                //return Vote::insert()
+                return Vote::insert();
             }
         }
         return Vote::insert($request->data, $id);
@@ -39,6 +39,6 @@ class VoteController extends Controller
     
     public function getVotes(){
         $votes = Vote::whereNotNull('quote_id')->get();
-        return $votes;
+        return VoteResource::collection($votes);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\QuoteResource;
 
 class VoteResource extends JsonResource
 {
@@ -14,6 +16,11 @@ class VoteResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'value' => $this->value,
+            'quote' => QuoteResource::make($this->quote),
+            'user' => UserResource::make($this->user),
+        ];
     }
 }
