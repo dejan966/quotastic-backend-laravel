@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cookie;
 class UserController extends Controller
 {
     public function getUsers(){
-        return User::all();
+        return UserResource::collection(User::all());
     }
 
     public function getCurrentUser(){

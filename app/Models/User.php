@@ -60,4 +60,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function quotes()
+    {
+        return $this->hasOne('App\Models\Quote','user_id','id')->select(['id','quote','karma']);
+    }
+    
+    public function votes()
+    {
+        return $this->hasOne('App\Models\Vote','user_id','id')->select(['id','value']);
+    }
 }
