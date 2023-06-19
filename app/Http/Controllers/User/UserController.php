@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -59,27 +60,24 @@ class UserController extends Controller
         return $numberOfUpvotes;
     }
 
-    public function updatePassword(Request $request){
-        //get current user
+    public function updatePassword(int $id, Request $request){
         if(!empty($request->password) && !empty($request->confirm_password)){
-            //hash password
-            $updatePass = User::where('id', $id)->update(array('password' => $request->password));
+            $updatePass = User::where('id', $id)->update(array('password' => Hash::make($request->password)));
         }
-        return UserResource::collection($updatePass);
     }
 
-    public function getById(Request $request){
-        $user = User::where('id', $request->id);
+    public function getById(int $id){
+        $user = User::where('id', $id)->get();
         return UserResource::collection($user);
     }
     
     public function updateById(int $id, Request $request){
-        $updatedUser = User::where('id', $id);
+        $updatedUser = User::where('id', $id)->get();
         return UserResource::collection($updatedUser);
     }
     
-    public function deleteById(Request $request){
-        $deletedUser = User::where('id', $request->id)->delete();
+    public function deleteById(int $id){
+        $deletedUser = User::where('id', $id)->delete();
         return UserResource::collection($deletedUser);
     }
 
