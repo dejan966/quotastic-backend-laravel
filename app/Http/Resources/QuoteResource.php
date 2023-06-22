@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\VoteResource;
 
 class QuoteResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class QuoteResource extends JsonResource
             'quote' => $this->quote,
             'karma' => $this->karma,
             'user' => UserResource::make($this->user),
+            //'votes' => VoteResource::make($this->votes),
         ];
     }
 }
