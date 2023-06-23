@@ -19,21 +19,25 @@ class VoteController extends Controller
         //error_log($userVote[0]['value']);
         if(!$userVote->isEmpty()){
             error_log('5');
-            if($userVote[0]['value'] == $request->value){
+            if($userVote[0]['value'] === $request->value){
                 //karma+=2
+                error_log('9');
                 return DB::delete('delete from votes where (value = ?) and (quote_id = ?) and (user_id = ?)', [$request->value, $id, $currUserId]);
             }
+            error_log('10');
             $update = $this->updateVote($userVote[0]['id']);
             //return $update;
         }     
-        return DB::insert('insert into votes (value, quote_id, user_id) values (?, ?, ?)', ['true', $id, $currUserId]);
-        //return Vote::insert(array('true', $id, $currUserId));
+        return DB::insert('insert into votes (value, quote_id, user_id) values (?, ?, ?)', [$request->value, $id, $currUserId]);
+        //return Vote::insert(array('value' => true, 'quote_id' => $id, 'user_id' => $currUserId));
     }
 
     public function updateVote(int $id){
-        $vote = Vote::where('id', $id)->get();
-        $updatedVote = Vote::update(array('value' => !($vote[0]['value'])));
-        return VoteResource::collection($updatedVote);
+        $vote = Vote::where('id', $id)->update(['value'=>1]);
+        
+        //$updatedVote = Vote::update(['value' => !$vote[0]['value']]);
+        //error_log($updatedVote[0]['value']);
+        return VoteResource::collection($vote);
     }
 
     public function deleteVote(int $id){
