@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vote;
 
 use DB;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Quote\QuoteController;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Vote;
@@ -15,14 +16,24 @@ class VoteController extends Controller
     public function createVote(int $id, Request $request){
         $currUserId = Auth::user()->id;
         $userVote = Vote::where('quote_id', $id)->where('user_id', $currUserId)->get();
-        error_log($request->value);
         if(!$userVote->isEmpty()){
+            $quote = (new QuoteController)->getById($userVote[0]['quote_id']);
             if($userVote[0]['value'] === $request->value){
-                //karma+=2
-                return DB::delete('delete from votes where (value = ?) and (quote_id = ?) and (user_id = ?)', [$request->value, $id, $currUserId]);
+                $quoteKarma = $request->value ? $quote[0]['karma'] - 1 : $quote[0]['karma'] + 1;
+                error_log($quoteKarma);
+                $request->request->add(['karma' => $quote[0]['karma']]); //add karma to request
+                $updateKarma = (new QuoteController)->update($id, $request);
+                return $this->deleteVote($userVote[0]['id']);
             }
+            $quoteKarma = $request->value ? $quote[0]['karma'] + 2 : $quote[0]['karma'] - 2;
+            error_log($quoteKarma);
+            //$updateKarma = (new QuoteController)->update($id, $request);
             return $this->updateVote($userVote[0]['id'], $request->value);
-        }     
+        }
+        $quote = (new QuoteController)->getById($id);
+        $quoteKarma = $request->value ? $quote[0]['karma'] + 1 : $quote[0]['karma'] - 1;
+        error_log($quoteKarma);
+        $updateKarma = (new QuoteController)->update($id, $request);
         return Vote::insert(array('value' => $request->value, 'quote_id' => $id, 'user_id' => $currUserId));
     }
 
@@ -33,7 +44,7 @@ class VoteController extends Controller
 
     public function deleteVote(int $id){
         $vote = Vote::where('id', $id)->delete();
-        //return VoteResource::collection($vote);
+        return VoteResource::collection($vote);
     }
 
     public function findUserVotes(int $userId){

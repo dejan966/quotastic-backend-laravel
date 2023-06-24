@@ -32,8 +32,8 @@ class QuoteController extends Controller
     }
 
     public function userMostLikedQuotes(Request $request){
-        $userMostLiked = Quote::where('user_id', $request->id)->orderBy('karma', 'DESC')->get();
-        return QuoteResource::collection($userMostLiked);
+        $userMostRecent = Quote::where('user_id', $request->id)->orderBy('karma', 'DESC')->get();
+        return QuoteResource::collection($userMostRecent);
     }
     
     public function userMostRecentQuotes(Request $request){
@@ -42,17 +42,20 @@ class QuoteController extends Controller
     }
     
     public function getById(int $id){
-        $userMostLiked = Quote::where('id', $id)->get();
-        return QuoteResource::collection($userMostLiked);
+        $quote = Quote::where('id', $id)->get();
+        return QuoteResource::collection($quote);
     }
     
-    public function updateById(int $id, Request $request){
-        $userMostLiked = Quote::where('id', $id)->update(array('quote' => $request->quote));
-        return QuoteResource::collection($userMostLiked);
+    public function update(int $id, Request $request){
+        if ($request->exists('karma')){
+            //karma doesn't change but the "updated_at" timestamp gets updated
+            return Quote::where('id', $id)->update(['karma' => $request->karma]);;
+        }
+        return Quote::where('id', $id)->update(['quote' => $request->quote]);
     }
     
     public function deleteById(int $id){
-        $userMostLiked = Quote::where('id', $id)->delete();
-        return QuoteResource::collection($userMostLiked);
+        $deletedQuote = Quote::where('id', $id)->delete();
+        return QuoteResource::collection($deletedQuote);
     }
 }

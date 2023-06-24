@@ -62,7 +62,7 @@ class UserController extends Controller
 
     public function updatePassword(int $id, Request $request){
         if(!empty($request->password) && !empty($request->confirm_password)){
-            $updatePass = User::where('id', $id)->update(array('password' => Hash::make($request->password)));
+            $updatePass = User::where('id', $id)->update(['password' => Hash::make($request->password)]);
         }
     }
 

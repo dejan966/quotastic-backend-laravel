@@ -46,7 +46,7 @@ class AuthController extends Controller
      * @return \App\Http\Resources\UserResource
      */
     protected function updateRtHash(int $id, $token){
-        $user = User::where('id', $id)->update(array('refresh_token' => $token));
+        $user = User::where('id', $id)->update(['refresh_token' => $token]);
     }
 
     /**

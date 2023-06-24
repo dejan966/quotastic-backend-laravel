@@ -48,7 +48,7 @@ Route::group([
     Route::get('recent', 'QuoteController@mostRecent');
     Route::group(['middleware'=>'auth'], function(){
         Route::get('{id}', 'QuoteController@getById');
-        Route::patch('{id}', 'QuoteController@updateById');
+        Route::patch('{id}', 'QuoteController@update');
         Route::delete('{id}', 'QuoteController@deleteById');
     });
 });
