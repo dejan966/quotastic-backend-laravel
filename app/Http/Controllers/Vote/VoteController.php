@@ -17,24 +17,28 @@ class VoteController extends Controller
         $currUserId = Auth::user()->id;
         $userVote = Vote::where('quote_id', $id)->where('user_id', $currUserId)->get();
         if(!$userVote->isEmpty()){
-            $quote = (new QuoteController)->getById($userVote[0]['quote_id']);
             if($userVote[0]['value'] === $request->value){
-                $quoteKarma = $request->value ? $quote[0]['karma'] - 1 : $quote[0]['karma'] + 1;
-                error_log($quoteKarma);
-                $request->request->add(['karma' => $quote[0]['karma']]); //add karma to request
-                $updateKarma = (new QuoteController)->update($id, $request);
+                $this->setKarma($id, $request, 1, true);
                 return $this->deleteVote($userVote[0]['id']);
             }
-            $quoteKarma = $request->value ? $quote[0]['karma'] + 2 : $quote[0]['karma'] - 2;
-            error_log($quoteKarma);
-            //$updateKarma = (new QuoteController)->update($id, $request);
+            $this->setKarma($id, $request, 2, false);
             return $this->updateVote($userVote[0]['id'], $request->value);
         }
-        $quote = (new QuoteController)->getById($id);
-        $quoteKarma = $request->value ? $quote[0]['karma'] + 1 : $quote[0]['karma'] - 1;
-        error_log($quoteKarma);
-        $updateKarma = (new QuoteController)->update($id, $request);
+        $this->setKarma($id, $request, 1, false);
         return Vote::insert(array('value' => $request->value, 'quote_id' => $id, 'user_id' => $currUserId));
+    }
+
+    public function setKarma(int $id, Request $request, int $karma, bool $flag){
+        $quote = (new QuoteController)->getById($id);
+        if($flag){
+            $quoteKarma = $request->value ? $quote[0]['karma'] - $karma : $quote[0]['karma'] + $karma;
+            $request->request->add(['karma' => $quoteKarma]);
+            $updateKarma = (new QuoteController)->update($id, $request);
+            return;
+        }
+        $quoteKarma = $request->value ? $quote[0]['karma'] + $karma : $quote[0]['karma'] - $karma;
+        $request->request->add(['karma' => $quoteKarma]);
+        $updateKarma = (new QuoteController)->update($id, $request);
     }
 
     public function updateVote(int $id, int $value){

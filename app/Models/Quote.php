@@ -14,7 +14,7 @@ class Quote extends Model
      *
      * @var array
      */
-    protected $fillable = ['quote'];
+    protected $fillable = ['quote', 'karma'];
 
     public function user()
     {

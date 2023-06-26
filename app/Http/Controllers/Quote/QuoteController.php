@@ -48,7 +48,6 @@ class QuoteController extends Controller
     
     public function update(int $id, Request $request){
         if ($request->exists('karma')){
-            //karma doesn't change but the "updated_at" timestamp gets updated
             return Quote::where('id', $id)->update(['karma' => $request->karma]);;
         }
         return Quote::where('id', $id)->update(['quote' => $request->quote]);
