@@ -50,6 +50,8 @@ Route::group([
         Route::get('{id}', 'QuoteController@getById');
         Route::patch('{id}', 'QuoteController@update');
         Route::delete('{id}', 'QuoteController@deleteById');
+        Route::get('mostLiked/users/{id}', 'QuoteController@userMostLikedQuotes');
+        Route::get('recent/users/{id}', 'QuoteController@userMostRecentQuotes');
     });
 });
 

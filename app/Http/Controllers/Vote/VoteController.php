@@ -28,6 +28,16 @@ class VoteController extends Controller
         return Vote::insert(array('value' => $request->value, 'quote_id' => $id, 'user_id' => $currUserId));
     }
 
+    public function updateVote(int $id, int $value){
+        $vote = Vote::where('id', $id)->update(['value'=>$value]);
+        return $vote;
+    }
+
+    public function deleteVote(int $id){
+        $vote = Vote::where('id', $id)->delete();
+        return VoteResource::collection($vote);
+    }
+
     public function setKarma(int $id, Request $request, int $karma, bool $flag){
         $quote = (new QuoteController)->getById($id);
         if($flag){
@@ -39,16 +49,6 @@ class VoteController extends Controller
         $quoteKarma = $request->value ? $quote[0]['karma'] + $karma : $quote[0]['karma'] - $karma;
         $request->request->add(['karma' => $quoteKarma]);
         $updateKarma = (new QuoteController)->update($id, $request);
-    }
-
-    public function updateVote(int $id, int $value){
-        $vote = Vote::where('id', $id)->update(['value'=>$value]);
-        return $vote;
-    }
-
-    public function deleteVote(int $id){
-        $vote = Vote::where('id', $id)->delete();
-        return VoteResource::collection($vote);
     }
 
     public function findUserVotes(int $userId){

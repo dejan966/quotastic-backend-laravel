@@ -13,6 +13,31 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function create(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->createUser($request->all());
+        return response()->json($user);
+    }
+
+    protected function createUser(array $data)
+    {
+        return User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'email' => ['required', 'string', 'email', 'unique:users'],
+            'password' => ['required', 'string', 'min:5'],
+        ]);
+    }
+
     public function getUsers(){
         return UserResource::collection(User::all());
     }
@@ -61,8 +86,8 @@ class UserController extends Controller
     }
 
     public function updatePassword(int $id, Request $request){
-        if(!empty($request->password) && !empty($request->confirm_password)){
-            $updatePass = User::where('id', $id)->update(['password' => Hash::make($request->password)]);
+        if(!empty($request->exists('password')) && !empty($request->exists('confirm_password'))){
+            return User::where('id', $id)->update(['password' => Hash::make($request->password)]);
         }
     }
 
@@ -71,12 +96,24 @@ class UserController extends Controller
         return UserResource::collection($user);
     }
     
-    public function updateById(int $id, Request $request){
-        $updatedUser = User::where('id', $id)->get();
-        return UserResource::collection($updatedUser);
+    public function update(int $id, Request $request){
+        if ($request->exists('first_name')){
+            return User::where('id', $id)->update(['first_name' => $request->first_name]);
+        }
+        if ($request->exists('last_name')){
+            return User::where('id', $id)->update(['last_name' => $request->last_name]);
+        }
+        if ($request->exists('email')){
+            return User::where('id', $id)->update(['email' => $request->email]);
+        }
+        if ($request->exists('password')){
+            return $this->updatePassword($id, $request);
+        }
+
+        return User::where('id', $id);
     }
     
-    public function deleteById(int $id){
+    public function delete(int $id){
         $deletedUser = User::where('id', $id)->delete();
         return UserResource::collection($deletedUser);
     }
